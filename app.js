@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 const cors = require('cors')
 
 var corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: 'https://localhost:4200',
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
