@@ -16,21 +16,23 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 app.get("/", (req, res) => {
-  res.render("show");
+  res.send("successfully connected");
 });
+
+var providerId;
 
 app.post("/api/resData", (req, res) => {
 
-  var id = req.body.id;
+  providerId = req.body.id;
   var name = req.body.name;
   var email = req.body.email;
   var image = req.body.image;
   var provider = req.body.provider;
   var idToken = req.body.idToken;
   var token = req.body.token;
-  var newUser = { id: id, name: name, email: email, image: image, provider: provider, idToken: idToken, token: token };
+  var newUser = { providerId: providerId, name: name, email: email, image: image, provider: provider, idToken: idToken, token: token };
 
-  User.findOne({ id: id }, (err, data) => {
+  User.findOne({ providerId: providerId }, (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -39,7 +41,6 @@ app.post("/api/resData", (req, res) => {
           if (err) {
             console.log(err);
           } else {
-            console.log(newlyCreatedUser);
             res.send("data inserted syucceesfully");
           }
         });
@@ -49,7 +50,33 @@ app.post("/api/resData", (req, res) => {
   });
 }
 );
-const port = process.env.port || 2000;
+
+app.get("/api/fetchPprofileEdit/:providerId", (req, res) => {
+console.log(req.params);
+var providerId = req.params.providerId;
+  User.findOne({ providerId: providerId }, (err, profileData) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(profileData);
+    }
+  });
+});
+app.put("/api/storeEditedData",(req, res)=>{
+var updatedData = req.body;
+console.log(updatedData);
+ var providerId = req.body.providerId;
+  User.findByIdAndUpdate({ providerId: providerId },{ $set:updatedData },(err,datas)=>{
+    if(err){
+      console.log(err);
+    }else{
+      console.log("updatedData:",datas);
+      res.send(datas);
+    }
+  });
+});
+
+const port = process.env.port || 5000;
 app.listen(port, () => {
-  console.log("server started on 2000 port");
+  console.log("server started on 5000 port");
 });
