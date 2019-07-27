@@ -18,12 +18,11 @@ app.use(cors(corsOptions))
 app.get("/", (req, res) => {
   res.send("successfully connected");
 });
-
-var providerId;
+// var providerId;
 
 app.post("/api/resData", (req, res) => {
 
-  providerId = req.body.id;
+  var providerId = req.body.id;
   var name = req.body.name;
   var email = req.body.email;
   var image = req.body.image;
@@ -52,25 +51,28 @@ app.post("/api/resData", (req, res) => {
 );
 
 app.get("/api/fetchPprofileEdit/:providerId", (req, res) => {
-console.log(req.params);
-var providerId = req.params.providerId;
+  // console.log(req.params);
+  var providerId = req.params.providerId;
+  console.log("====================>>>>>>>", providerId)
   User.findOne({ providerId: providerId }, (err, profileData) => {
     if (err) {
       res.send(err);
     } else {
+      console.log(profileData)
       res.json(profileData);
     }
   });
 });
-app.put("/api/storeEditedData",(req, res)=>{
-var updatedData = req.body;
-console.log(updatedData);
- var providerId = req.body.providerId;
-  User.findByIdAndUpdate({ providerId: providerId },{ $set:updatedData },(err,datas)=>{
-    if(err){
-      console.log(err);
-    }else{
-      console.log("updatedData:",datas);
+app.put("/api/storeEditedData", (req, res) => {
+  var updatedData = req.body;
+  console.log("check", updatedData);
+  var Id = updatedData.updatedUser.Id;
+  console.log("check providerIderrrrrrrrrrrrrrrrrrrrrrr", Id);
+  User.findByIdAndUpdate({ _id: Id }, { $set: updatedData }, (err, datas) => {
+    if (err) {
+      console.log(err,"errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    } else {
+      console.log("updatedDataaaaaaaaaaaaaaaaaaaaaaaa:", datas);
       res.send(datas);
     }
   });
