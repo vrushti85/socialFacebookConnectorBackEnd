@@ -2,8 +2,8 @@ var User = require("../model/User");
 var upload = require("../helper/multer.config");
 var express = require("express");
 const router = express.Router();
-router.post("/api/addDataFromProvider", (req, res) => {
 
+router.post("/api/addDataFromProvider", (req, res) => {
   var providerId = req.body.id;
   var name = req.body.name;
   var email = req.body.email;
@@ -43,7 +43,6 @@ router.get("/api/editprofile/:providerId", (req, res) => {
   });
 });
 router.put("/api/storeEditProfileData", (req, res) => {
-
   var image = req.body.updatedUser.image;
   var name = req.body.updatedUser.name;
   var email = req.body.updatedUser.email;
@@ -52,7 +51,6 @@ router.put("/api/storeEditProfileData", (req, res) => {
   var Id = req.body.updatedUser.Id;
 
   var updatedData = { image: image, name: name, email: email, dateOfBirth: dateOfBirth, city: city, _id: Id }
-
   User.findByIdAndUpdate({ _id: Id }, { $set: updatedData }, (err, datas) => {
     if (err) {
       res.status(304).send("Failed to Update your Profile");
