@@ -6,7 +6,7 @@ require("custom-env").env();
 var maxSize = 1 * 1000 * 1000;
 
 aws.config.update({
-  secretAccessKey: process.env.accessKeyId,
+  secretAccessKey: process.env.accessKey,
   accessKeyId: process.env.accessKeyId,
   region: process.env.region
 });
